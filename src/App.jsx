@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
@@ -10,68 +10,74 @@ import bravoLogo from './assets/bravo_logo.png'
 import clienteFeliz1 from './assets/cliente_feliz_1.jpg'
 import clienteFeliz2 from './assets/cliente_feliz_2.jpg'
 import clienteSatisfeito from './assets/cliente_satisfeito.jpg'
+import { supabase } from './lib/supabase'
+import { VehicleModal } from './components/VehicleModal'
 import './App.css'
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedModel, setSelectedModel] = useState('')
+  const [selectedBrand, setSelectedBrand] = useState('')
+  const [vehicles, setVehicles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [selectedVehicle, setSelectedVehicle] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // Dados dos veículos baseados no site original
-  const vehicles = [
-    {
-      id: 1,
-      name: "CHEVROLET S10 2.8 16V TURBO DIESEL HIGH COUNTRY CD 4X4 AUTOMÁTICO",
-      price: "R$ 210.000,00",
-      year: 2023,
-      transmission: "Automático",
-      image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop"
-    },
-    {
-      id: 2,
-      name: "CHEVROLET ONIX PLUS 1.0 TURBO FLEX LTZ AUTOMÁTICO",
-      price: "R$ 92.000,00",
-      year: 2024,
-      km: "48491 km",
-      transmission: "Automático",
-      image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop"
-    },
-    {
-      id: 3,
-      name: "FIAT CRONOS 1.3 FIREFLY FLEX DRIVE MANUAL",
-      price: "R$ 86.000,00",
-      year: 2024,
-      km: "45645 km",
-      transmission: "Manual",
-      image: "https://images.unsplash.com/photo-1494976688153-c785a4cfc4a5?w=400&h=300&fit=crop"
-    },
-    {
-      id: 4,
-      name: "FIAT TORO 2.0 16V TURBO DIESEL VOLCANO 4WD AT9",
-      price: "R$ 110.000,00",
-      year: 2018,
-      km: "91921 km",
-      transmission: "Automático",
-      image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop"
-    },
-    {
-      id: 5,
-      name: "TOYOTA COROLLA 2.0 VVT-IE FLEX ALTIS PREMIUM DIRECT SHIFT",
-      price: "R$ 148.000,00",
-      year: 2022,
-      km: "45776 km",
-      transmission: "Automático",
-      image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400&h=300&fit=crop"
-    },
-    {
-      id: 6,
-      name: "VOLKSWAGEN POLO 1.0 MPI TRACK MANUAL",
-      price: "R$ 73.000,00",
-      year: 2023,
-      km: "94654 km",
-      transmission: "Manual",
-      image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop"
+  // Função para buscar veículos do Supabase
+  const fetchVehicles = async (brandFilter = '') => {
+    try {
+      setLoading(true)
+      let query = supabase.from('estoque').select('*')
+      
+      if (brandFilter) {
+        query = query.ilike('marca', `%${brandFilter}%`)
+      }
+      
+      const { data, error } = await query.order('id', { ascending: false })
+      
+      if (error) {
+        console.error('Erro ao buscar veículos:', error)
+        return
+      }
+      
+      setVehicles(data || [])
+    } catch (error) {
+      console.error('Erro na conexão:', error)
+    } finally {
+      setLoading(false)
     }
-  ]
+  }
+
+  // Carregar veículos ao inicializar
+  useEffect(() => {
+    fetchVehicles()
+  }, [])
+
+  // Função para filtrar por marca
+  const handleBrandFilter = (brandName) => {
+    setSelectedBrand(brandName)
+    fetchVehicles(brandName)
+  }
+
+  // Função para abrir modal de detalhes
+  const openVehicleModal = (vehicle) => {
+    setSelectedVehicle(vehicle)
+    setIsModalOpen(true)
+  }
+
+  // Função para obter primeira imagem do veículo
+  const getVehicleImage = (vehicle) => {
+    try {
+      const imageData = JSON.parse(vehicle.imagens)
+      if (imageData.imagens) {
+        const images = imageData.imagens.split(', ')
+        return images[0]?.trim()
+      }
+    } catch (error) {
+      console.error('Erro ao fazer parse das imagens:', error)
+    }
+    return 'https://images.unsplash.com/photo-1494976688153-c785a4cfc4a5?w=400&h=300&fit=crop'
+  }
 
   const brands = [
     { name: "Chevrolet", logo: "https://logos-world.net/wp-content/uploads/2021/03/Chevrolet-Logo.png" },
@@ -198,6 +204,20 @@ function App() {
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Trabalhamos com as Melhores Marcas</h2>
+          {selectedBrand && (
+            <div className="text-center mb-4">
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setSelectedBrand('')
+                  fetchVehicles()
+                }}
+                className="mb-4"
+              >
+                Limpar Filtro: {selectedBrand}
+              </Button>
+            </div>
+          )}
           <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4">
             {brands.map((brand, index) => (
               <motion.div
@@ -205,7 +225,10 @@ function App() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer flex flex-col items-center justify-center h-20"
+                className={`bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer flex flex-col items-center justify-center h-20 ${
+                  selectedBrand === brand.name ? 'ring-2 ring-lime-400 bg-lime-50' : ''
+                }`}
+                onClick={() => handleBrandFilter(brand.name)}
               >
                 <div className="w-12 h-8 flex items-center justify-center mb-2">
                   <img 
@@ -291,40 +314,66 @@ function App() {
             <p className="text-xl text-gray-600">O melhor negócio está aqui</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {vehicles.map((vehicle, index) => (
-              <motion.div
-                key={vehicle.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                  <div className="relative">
-                    <img 
-                      src={vehicle.image} 
-                      alt={vehicle.name}
-                      className="w-full h-48 object-cover"
-                    />
-                    <Badge className="absolute top-2 right-2 bg-lime-400 text-black">
-                      {vehicle.year}
-                    </Badge>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="bg-gray-200 h-48 rounded-t-lg"></div>
+                  <div className="bg-white p-4 rounded-b-lg">
+                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded mb-4"></div>
+                    <div className="h-10 bg-gray-200 rounded"></div>
                   </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-bold text-sm mb-2 line-clamp-2">{vehicle.name}</h3>
-                    <div className="text-2xl font-bold text-lime-600 mb-2">{vehicle.price}</div>
-                    <div className="flex justify-between text-sm text-gray-600 mb-4">
-                      {vehicle.km && <span>{vehicle.km}</span>}
-                      <span>{vehicle.transmission}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {vehicles.map((vehicle, index) => (
+                <motion.div
+                  key={vehicle.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    <div className="relative">
+                      <img 
+                        src={getVehicleImage(vehicle)} 
+                        alt={`${vehicle.marca} ${vehicle.modelo}`}
+                        className="w-full h-48 object-cover"
+                        onError={(e) => {
+                          e.target.src = 'https://images.unsplash.com/photo-1494976688153-c785a4cfc4a5?w=400&h=300&fit=crop'
+                        }}
+                      />
+                      <Badge className="absolute top-2 right-2 bg-lime-400 text-black">
+                        {vehicle.ano}
+                      </Badge>
                     </div>
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white">
-                      Ver Detalhes
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
+                    <CardContent className="p-4">
+                      <h3 className="font-bold text-sm mb-2 line-clamp-2">
+                        {vehicle.marca?.toUpperCase()} {vehicle.modelo?.toUpperCase()}
+                      </h3>
+                      <div className="text-2xl font-bold text-lime-600 mb-2">
+                        {vehicle.preco?.replace('R$', 'R$ ') || 'Consulte'}
+                      </div>
+                      <div className="flex justify-between text-sm text-gray-600 mb-4">
+                        {vehicle.km && <span>{vehicle.km}</span>}
+                        <span>{vehicle.cambio}</span>
+                      </div>
+                      <Button 
+                        className="w-full bg-black hover:bg-gray-800 text-white"
+                        onClick={() => openVehicleModal(vehicle)}
+                      >
+                        Ver Detalhes
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          )}
           
           <div className="text-center mt-12">
             <Button size="lg" className="bg-lime-400 hover:bg-lime-500 text-black font-bold">
@@ -531,6 +580,13 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Modal de Detalhes do Veículo */}
+      <VehicleModal 
+        vehicle={selectedVehicle}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   )
 }
