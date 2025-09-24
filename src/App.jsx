@@ -74,9 +74,24 @@ function App() {
   ]
 
   const brands = [
-    "Chevrolet", "Fiat", "Ford", "Honda", "Toyota", "Volkswagen", 
-    "Audi", "Hyundai", "Jeep", "Nissan", "Renault", "Volvo", 
-    "BMW", "Mercedes-Benz", "Suzuki", "Mitsubishi", "KIA", "Citroën"
+    { name: "Chevrolet", logo: "https://logos-world.net/wp-content/uploads/2021/03/Chevrolet-Logo.png" },
+    { name: "Fiat", logo: "https://logos-world.net/wp-content/uploads/2021/03/Fiat-Logo.png" },
+    { name: "Ford", logo: "https://logos-world.net/wp-content/uploads/2021/03/Ford-Logo.png" },
+    { name: "Honda", logo: "https://logos-world.net/wp-content/uploads/2021/03/Honda-Logo.png" },
+    { name: "Toyota", logo: "https://logos-world.net/wp-content/uploads/2021/03/Toyota-Logo.png" },
+    { name: "Volkswagen", logo: "https://logos-world.net/wp-content/uploads/2021/03/Volkswagen-Logo.png" },
+    { name: "Audi", logo: "https://logos-world.net/wp-content/uploads/2021/03/Audi-Logo.png" },
+    { name: "Hyundai", logo: "https://logos-world.net/wp-content/uploads/2021/03/Hyundai-Logo.png" },
+    { name: "Jeep", logo: "https://logos-world.net/wp-content/uploads/2021/03/Jeep-Logo.png" },
+    { name: "Nissan", logo: "https://logos-world.net/wp-content/uploads/2021/03/Nissan-Logo.png" },
+    { name: "Renault", logo: "https://logos-world.net/wp-content/uploads/2021/03/Renault-Logo.png" },
+    { name: "Volvo", logo: "https://logos-world.net/wp-content/uploads/2021/03/Volvo-Logo.png" },
+    { name: "BMW", logo: "https://logos-world.net/wp-content/uploads/2021/03/BMW-Logo.png" },
+    { name: "Mercedes-Benz", logo: "https://logos-world.net/wp-content/uploads/2021/03/Mercedes-Benz-Logo.png" },
+    { name: "Suzuki", logo: "https://logos-world.net/wp-content/uploads/2021/03/Suzuki-Logo.png" },
+    { name: "Mitsubishi", logo: "https://logos-world.net/wp-content/uploads/2021/03/Mitsubishi-Logo.png" },
+    { name: "KIA", logo: "https://logos-world.net/wp-content/uploads/2021/03/Kia-Logo.png" },
+    { name: "Citroën", logo: "https://logos-world.net/wp-content/uploads/2021/03/Citroen-Logo.png" }
   ]
 
   const testimonials = [
@@ -186,13 +201,27 @@ function App() {
           <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 gap-4">
             {brands.map((brand, index) => (
               <motion.div
-                key={brand}
+                key={brand.name}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer flex flex-col items-center justify-center h-20"
               >
-                <div className="text-center font-semibold text-sm text-gray-700">{brand}</div>
+                <div className="w-12 h-8 flex items-center justify-center mb-2">
+                  <img 
+                    src={brand.logo} 
+                    alt={brand.name}
+                    className="max-w-full max-h-full object-contain"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div className="hidden w-full h-full bg-gray-200 rounded items-center justify-center">
+                    <span className="text-xs font-bold text-gray-600">{brand.name.substring(0, 3).toUpperCase()}</span>
+                  </div>
+                </div>
+                <div className="text-center font-semibold text-xs text-gray-700">{brand.name}</div>
               </motion.div>
             ))}
           </div>
