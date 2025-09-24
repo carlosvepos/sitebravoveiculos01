@@ -60,7 +60,7 @@ export function VehicleModal({ vehicle, isOpen, onClose }) {
           <div className="space-y-4">
             {images.length > 0 ? (
               <>
-                <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden h-80">
                   <img
                     src={images[currentImageIndex]}
                     alt={`${vehicle.marca} ${vehicle.modelo} - Imagem ${currentImageIndex + 1}`}
@@ -152,7 +152,7 @@ export function VehicleModal({ vehicle, isOpen, onClose }) {
             <div className="space-y-3">
               <Button 
                 className="w-full bg-lime-400 hover:bg-lime-500 text-black font-bold"
-                onClick={() => window.open('https://wa.me/27988153010?text=Olá! Tenho interesse no veículo ' + vehicle.marca + ' ' + vehicle.modelo + ' ' + vehicle.ano, '_blank')}
+                onClick={() => window.open('https://wa.me/5527988153010?text=Olá! Tenho interesse no veículo ' + vehicle.marca + ' ' + vehicle.modelo + ' ' + vehicle.ano, '_blank')}
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 Tenho Interesse - WhatsApp

@@ -12,6 +12,7 @@ import clienteFeliz2 from './assets/cliente_feliz_2.jpg'
 import clienteSatisfeito from './assets/cliente_satisfeito.jpg'
 import { supabase } from './lib/supabase'
 import { VehicleModal } from './components/VehicleModal'
+import { QuemSomos } from './components/QuemSomos'
 import './App.css'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [selectedVehicle, setSelectedVehicle] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showQuemSomos, setShowQuemSomos] = useState(false)
 
   // Função para buscar veículos do Supabase
   const fetchVehicles = async (brandFilter = '') => {
@@ -121,8 +123,13 @@ function App() {
     }
   ]
 
+  // Se showQuemSomos for true, mostrar a página Quem Somos
+  if (showQuemSomos) {
+    return <QuemSomos onClose={() => setShowQuemSomos(false)} />
+  }
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="bg-black text-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
@@ -137,7 +144,12 @@ function App() {
             
             <nav className="hidden md:flex items-center space-x-6">
               <a href="#inicio" className="hover:text-lime-400 transition-colors">Início</a>
-              <a href="#quem-somos" className="hover:text-lime-400 transition-colors">Quem somos</a>
+              <button 
+                onClick={() => setShowQuemSomos(true)}
+                className="hover:text-lime-400 transition-colors"
+              >
+                Quem somos
+              </button>
               <a href="#veiculos" className="hover:text-lime-400 transition-colors">Veículos</a>
               <a href="#contato" className="hover:text-lime-400 transition-colors">Contato</a>
             </nav>
@@ -190,7 +202,7 @@ function App() {
               <Button 
                 size="lg" 
                 className="bg-lime-400 hover:bg-lime-500 text-black font-bold px-8 py-4 text-lg"
-                onClick={() => window.open('https://wa.me/27988153010', '_blank')}
+                onClick={() => window.open('https://wa.me/5527988153010', '_blank')}
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
                 Fale Conosco
@@ -342,7 +354,7 @@ function App() {
                       <img 
                         src={getVehicleImage(vehicle)} 
                         alt={`${vehicle.marca} ${vehicle.modelo}`}
-                        className="w-full h-48 object-cover"
+                        className="w-full h-64 object-cover"
                         onError={(e) => {
                           e.target.src = 'https://images.unsplash.com/photo-1494976688153-c785a4cfc4a5?w=400&h=300&fit=crop'
                         }}
@@ -508,7 +520,7 @@ function App() {
                 <Button 
                   size="lg" 
                   className="bg-lime-400 hover:bg-lime-500 text-black font-bold w-full md:w-auto"
-                  onClick={() => window.open('https://wa.me/27988153010', '_blank')}
+                  onClick={() => window.open('https://wa.me/5527988153010', '_blank')}
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Falar no WhatsApp
@@ -561,14 +573,19 @@ function App() {
               <Button size="sm" variant="ghost" className="text-white hover:text-lime-400">
                 <Facebook className="h-5 w-5" />
               </Button>
-              <Button size="sm" variant="ghost" className="text-white hover:text-lime-400">
+              <Button 
+                size="sm" 
+                variant="ghost" 
+                className="text-white hover:text-lime-400"
+                onClick={() => window.open('https://www.instagram.com/bravoveiculo/', '_blank')}
+              >
                 <Instagram className="h-5 w-5" />
               </Button>
               <Button 
                 size="sm" 
                 variant="ghost" 
                 className="text-white hover:text-lime-400"
-                onClick={() => window.open('https://wa.me/27988153010', '_blank')}
+                onClick={() => window.open('https://wa.me/5527988153010', '_blank')}
               >
                 <MessageCircle className="h-5 w-5" />
               </Button>
