@@ -18,6 +18,8 @@ import bravoLogoSmall from './assets/optimized/bravo_logo_small.webp'
 import bravoLogoMedium from './assets/optimized/bravo_logo_medium.webp'
 import heroBg3Mobile from './assets/optimized/hero_bg_3_mobile.webp'
 import heroBg3Desktop from './assets/optimized/hero_bg_3_desktop.webp'
+import bravoFachadaMobile from './assets/optimized/bravo_fachada_mobile.webp'
+import bravoFachadaDesktop from './assets/optimized/bravo_fachada_desktop.webp'
 import clienteFeliz1Mobile from './assets/optimized/cliente_feliz_1_mobile.webp'
 import clienteFeliz1Desktop from './assets/optimized/cliente_feliz_1_desktop.webp'
 import clienteFeliz2Mobile from './assets/optimized/cliente_feliz_2_mobile.webp'
@@ -201,7 +203,7 @@ function App() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url(${isMobile ? heroBg3Mobile : heroBg3Desktop})`,
+            backgroundImage: `url(${isMobile ? bravoFachadaMobile : bravoFachadaDesktop})`,
             backgroundPosition: 'center center',
             backgroundSize: 'cover'
           }}
