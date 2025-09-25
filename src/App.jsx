@@ -13,6 +13,18 @@ import clienteSatisfeito from './assets/cliente_satisfeito.jpg'
 import heroBg1 from './assets/hero_bg_1.png'
 import heroBg2 from './assets/hero_bg_2.png'
 import heroBg3 from './assets/hero_bg_3.png'
+// Imagens otimizadas
+import bravoLogoSmall from './assets/optimized/bravo_logo_small.webp'
+import bravoLogoMedium from './assets/optimized/bravo_logo_medium.webp'
+import heroBg3Mobile from './assets/optimized/hero_bg_3_mobile.webp'
+import heroBg3Desktop from './assets/optimized/hero_bg_3_desktop.webp'
+import clienteFeliz1Mobile from './assets/optimized/cliente_feliz_1_mobile.webp'
+import clienteFeliz1Desktop from './assets/optimized/cliente_feliz_1_desktop.webp'
+import clienteFeliz2Mobile from './assets/optimized/cliente_feliz_2_mobile.webp'
+import clienteFeliz2Desktop from './assets/optimized/cliente_feliz_2_desktop.webp'
+import clienteSatisfeitoMobile from './assets/optimized/cliente_satisfeito_mobile.webp'
+import clienteSatisfeitoDesktop from './assets/optimized/cliente_satisfeito_desktop.webp'
+import { useIsMobile } from './hooks/useIsMobile'
 import { supabase } from './lib/supabase'
 import { VehicleModal } from './components/VehicleModal'
 import { QuemSomos } from './components/QuemSomos'
@@ -27,6 +39,7 @@ function App() {
   const [selectedVehicle, setSelectedVehicle] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showQuemSomos, setShowQuemSomos] = useState(false)
+  const isMobile = useIsMobile()
 
   // Função para buscar veículos do Supabase
   const fetchVehicles = async (brandFilter = '') => {
@@ -107,22 +120,25 @@ function App() {
 
   const testimonials = [
     {
-      name: "João Silva",
-      text: "Excelente atendimento! Comprei meu Onix na Bravo e foi a melhor experiência. Equipe muito profissional.",
+      name: "Maria Silva",
+      text: "Excelente atendimento! Encontrei o carro perfeito com ótimo preço.",
       rating: 5,
-      image: clienteFeliz1
+      image: isMobile ? clienteFeliz1Mobile : clienteFeliz1Desktop,
+      fallback: clienteFeliz1
     },
     {
-      name: "Maria Santos",
-      text: "Financiamento aprovado rapidamente e sem burocracia. Recomendo a Bravo Veículos!",
+      name: "João Santos",
+      text: "Profissionais competentes e honestos. Recomendo a todos!",
       rating: 5,
-      image: clienteFeliz2
+      image: isMobile ? clienteFeliz2Mobile : clienteFeliz2Desktop,
+      fallback: clienteFeliz2
     },
     {
       name: "Carlos Oliveira",
       text: "Qualidade e garantia como prometido. Meu carro está perfeito há 2 anos!",
       rating: 5,
-      image: clienteSatisfeito
+      image: isMobile ? clienteSatisfeitoMobile : clienteSatisfeitoDesktop,
+      fallback: clienteSatisfeito
     }
   ]
 
@@ -138,7 +154,12 @@ function App() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src={bravoLogo} alt="Bravo Veículos" className="h-12 w-12 rounded-full" />
+              <img 
+                src={isMobile ? bravoLogoSmall : bravoLogoMedium} 
+                alt="Bravo Veículos" 
+                className="h-12 w-12 rounded-full"
+                onError={(e) => { e.target.src = bravoLogo }}
+              />
               <div>
                 <h1 className="text-xl font-bold text-lime-400">BRAVO VEÍCULOS</h1>
                 <p className="text-sm text-gray-300">Qualidade e garantia em um só lugar</p>
@@ -180,7 +201,7 @@ function App() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url(${heroBg3})`,
+            backgroundImage: `url(${isMobile ? heroBg3Mobile : heroBg3Desktop})`,
             backgroundPosition: 'center center',
             backgroundSize: 'cover'
           }}
@@ -475,7 +496,8 @@ function App() {
                       <img 
                         src={testimonial.image} 
                         alt={testimonial.name}
-                        className="w-12 h-12 rounded-full object-cover mr-4"
+                        className="w-16 h-16 rounded-full object-cover mx-auto mb-4"
+                        onError={(e) => { e.target.src = testimonial.fallback }}
                       />
                       <div>
                         <h4 className="font-bold">{testimonial.name}</h4>
@@ -573,7 +595,12 @@ function App() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <img src={bravoLogo} alt="Bravo Veículos" className="h-10 w-10 rounded-full" />
+              <img 
+                src={isMobile ? bravoLogoSmall : bravoLogoMedium} 
+                alt="Bravo Veículos" 
+                className="h-10 w-10 rounded-full"
+                onError={(e) => { e.target.src = bravoLogo }}
+              />
               <div>
                 <h3 className="font-bold text-lime-400">BRAVO VEÍCULOS</h3>
                 <p className="text-sm text-gray-400">Qualidade e garantia em um só lugar</p>
