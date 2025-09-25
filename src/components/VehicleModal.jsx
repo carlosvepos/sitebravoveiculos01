@@ -60,7 +60,7 @@ export function VehicleModal({ vehicle, isOpen, onClose }) {
           <div className="space-y-4">
             {images.length > 0 ? (
               <>
-                <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden h-80">
+                <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden h-[600px]">
                   <img
                     src={images[currentImageIndex]}
                     alt={`${vehicle.marca} ${vehicle.modelo} - Imagem ${currentImageIndex + 1}`}
