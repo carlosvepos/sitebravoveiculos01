@@ -363,61 +363,49 @@ function App() {
       {/* Vehicles Section */}
       <section id="veiculos" className="py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">NOVIDADES</h2>
-            <p className="text-xl text-gray-600">O melhor negócio está aqui</p>
-          </div>
-          
+          <h2 className="text-3xl font-bold text-center mb-2">Novidades</h2>
+          <p className="text-lg text-center text-gray-600 mb-8">O melhor negócio está aqui</p>
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="bg-gray-200 h-48 rounded-t-lg"></div>
-                  <div className="bg-white p-4 rounded-b-lg">
-                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-4"></div>
-                    <div className="h-10 bg-gray-200 rounded"></div>
-                  </div>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-gray-200 h-96 rounded-lg animate-pulse"></div>
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {vehicles.map((vehicle, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {vehicles.slice(0, 6).map(vehicle => (
                 <motion.div
                   key={vehicle.id}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ duration: 0.5 }}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300"
                 >
-                  <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                    <div className="relative">
-                      <img 
-                        src={getVehicleImage(vehicle)} 
-                        alt={`${vehicle.marca} ${vehicle.modelo}`}
-                        className="w-full h-64 object-cover"
-                        onError={(e) => {
-                          e.target.src = 'https://images.unsplash.com/photo-1494976688153-c785a4cfc4a5?w=400&h=300&fit=crop'
-                        }}
-                      />
-                      <Badge className="absolute top-2 right-2 bg-lime-400 text-black">
-                        {vehicle.ano}
-                      </Badge>
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="font-bold text-sm mb-2 line-clamp-2">
-                        {vehicle.marca?.toUpperCase()} {vehicle.modelo?.toUpperCase()}
-                      </h3>
-                      <div className="text-2xl font-bold text-lime-600 mb-2">
-                        {vehicle.preco?.replace('R$', 'R$ ') || 'Consulte'}
+                  <Card>
+                    <CardHeader className="p-0">
+                      <div className="relative h-64">
+                        <img 
+                          src={getVehicleImage(vehicle)} 
+                          alt={`${vehicle.marca} ${vehicle.modelo}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <Badge className="absolute top-4 right-4 bg-lime-400 text-black">{vehicle.condicao}</Badge>
                       </div>
-                      <div className="flex justify-between text-sm text-gray-600 mb-4">
-                        {vehicle.km && <span>{vehicle.km}</span>}
-                        <span>{vehicle.cambio}</span>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <CardTitle className="text-xl font-bold mb-2">{vehicle.marca} {vehicle.modelo}</CardTitle>
+                      <CardDescription className="text-gray-600 mb-4">{vehicle.versao}</CardDescription>
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="text-2xl font-bold text-lime-500">R$ {Number(vehicle.preco).toLocaleString('pt-BR')}</span>
+                        <span className="text-gray-500">{vehicle.ano_fabricacao}/{vehicle.ano_modelo}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2 text-sm text-gray-600 mb-4">
+                        <Badge variant="secondary">{vehicle.quilometragem} km</Badge>
+                        <Badge variant="secondary">{vehicle.cambio}</Badge>
+                        <Badge variant="secondary">{vehicle.combustivel}</Badge>
                       </div>
                       <Button 
-                        className="w-full bg-black hover:bg-gray-800 text-white"
+                        className="w-full bg-black text-white hover:bg-gray-800"
                         onClick={() => openVehicleModal(vehicle)}
                       >
                         Ver Detalhes
@@ -428,196 +416,141 @@ function App() {
               ))}
             </div>
           )}
-          
-          <div className="text-center mt-12">
-            <Button size="lg" className="bg-lime-400 hover:bg-lime-500 text-black font-bold">
-              VER ESTOQUE COMPLETO
+        </div>
+      </section>
+
+      {/* Diferenciais Section */}
+      <section className="bg-gray-100 py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            <div className="flex flex-col items-center">
+              <CreditCard className="h-12 w-12 text-lime-400 mb-4" />
+              <h3 className="text-xl font-bold mb-2">Crédito Aprovado na Hora</h3>
+              <p className="text-gray-600">Facilidade e rapidez para você sair de carro novo.</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <Shield className="h-12 w-12 text-lime-400 mb-4" />
+              <h3 className="text-xl font-bold mb-2">Garantia Estendida</h3>
+              <p className="text-gray-600">Proteção e tranquilidade pós-venda.</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <Car className="h-12 w-12 text-lime-400 mb-4" />
+              <h3 className="text-xl font-bold mb-2">+100 Veículos em Estoque</h3>
+              <p className="text-gray-600">A maior variedade de seminovos da região.</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <Users className="h-12 w-12 text-lime-400 mb-4" />
+              <h3 className="text-xl font-bold mb-2">Atendimento Personalizado</h3>
+              <p className="text-gray-600">Cada cliente é único e especial para nós.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <ClientesCarrossel />
+
+      {/* CTA Section */}
+      <section className="bg-black text-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold mb-4">Venha Fazer Parte da Nossa História</h2>
+          <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">Estamos prontos para ajudar você a encontrar o veículo dos seus sonhos. Visite nossa loja e descubra por que somos a escolha de milhares de famílias.</p>
+          <div className="flex justify-center space-x-4">
+            <Button 
+              size="lg"
+              className="bg-lime-400 hover:bg-lime-500 text-black font-bold"
+              onClick={() => window.open('https://wa.me/5527988153010', '_blank')}
+            >
+              <MessageCircle className="mr-2 h-5 w-5" />
+              Fale Conosco
+            </Button>
+            <Button 
+              size="lg"
+              variant="outline"
+              className="border-lime-400 text-lime-400 hover:bg-lime-400 hover:text-black"
+              onClick={() => document.getElementById('veiculos')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              Ver Estoque
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 bg-black text-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <motion.div 
-              whileHover={{ scale: 1.05 }}
-              className="text-center"
-            >
-              <div className="bg-lime-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CreditCard className="h-8 w-8 text-black" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-lime-400">CRÉDITO RÁPIDO</h3>
-              <p className="text-gray-300">COM AS MELHORES TAXAS</p>
-            </motion.div>
-            
-            <motion.div 
-              whileHover={{ scale: 1.05 }}
-              className="text-center"
-            >
-              <div className="bg-lime-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Car className="h-8 w-8 text-black" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-lime-400">PARCELA QUE CABE</h3>
-              <p className="text-gray-300">NO SEU BOLSO</p>
-            </motion.div>
-            
-            <motion.div 
-              whileHover={{ scale: 1.05 }}
-              className="text-center"
-            >
-              <div className="bg-lime-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-black" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-lime-400">MAIS DE 100 VEÍCULOS</h3>
-              <p className="text-gray-300">EM ESTOQUE</p>
-            </motion.div>
-            
-            <motion.div 
-              whileHover={{ scale: 1.05 }}
-              className="text-center"
-            >
-              <div className="bg-lime-400 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-8 w-8 text-black" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-lime-400">QUALIDADE</h3>
-              <p className="text-gray-300">& PROCEDÊNCIA</p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Clientes Satisfeitos Carrossel */}
-      <ClientesCarrossel />
-
       {/* Contact Section */}
-      <section id="contato" className="py-16 bg-black text-white">
+      <section id="contato" className="py-12 bg-gray-100">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-4xl font-bold mb-8 text-lime-400">Entre em Contato</h2>
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <MapPin className="h-6 w-6 text-lime-400" />
-                  <div>
-                    <p className="font-semibold">Endereço</p>
-                    <p className="text-gray-300">Av. Carlos Lindenberg, 1757 - Aribiri, Vila Velha - ES, 29106-730</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4">
-                  <Phone className="h-6 w-6 text-lime-400" />
-                  <div>
-                    <p className="font-semibold">Telefone</p>
-                    <p className="text-gray-300">(27) 98815-3010</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4">
-                  <Clock className="h-6 w-6 text-lime-400" />
-                  <div>
-                    <p className="font-semibold">Funcionamento</p>
-                    <p className="text-gray-300">SEG - SEX 8:00 - 18:00 | SÁB 8:00 - 16:00</p>
-                  </div>
-                </div>
+          <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Entre em Contato</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">Nossa Localização</h3>
+              <div className="flex items-center mb-2">
+                <MapPin className="mr-2 h-5 w-5 text-lime-400" />
+                <p className="text-gray-700">Av. Carlos Lindenberg, 1757 - Aribiri, Vila Velha - ES, 29106-730</p>
               </div>
-              
-              <div className="mt-8">
-                <Button 
-                  size="lg" 
-                  className="bg-lime-400 hover:bg-lime-500 text-black font-bold w-full md:w-auto"
-                  onClick={() => window.open('https://wa.me/5527988153010', '_blank')}
-                >
-                  <MessageCircle className="mr-2 h-5 w-5" />
-                  Falar no WhatsApp
-                </Button>
+              <h3 className="text-xl font-bold mb-4 text-gray-800 mt-6">Horário de Funcionamento</h3>
+              <div className="flex items-center mb-2">
+                <Clock className="mr-2 h-5 w-5 text-lime-400" />
+                <p className="text-gray-700">SEG - SEX 8:00 - 18:00 | SÁB 8:00 - 16:00</p>
               </div>
+              <h3 className="text-xl font-bold mb-4 text-gray-800 mt-6">Fale Conosco</h3>
+              <div className="flex items-center mb-2">
+                <Phone className="mr-2 h-5 w-5 text-lime-400" />
+                <p className="text-gray-700">(27) 98815-3010</p>
+              </div>
+              <Button 
+                className="mt-4 bg-lime-400 hover:bg-lime-500 text-black font-bold w-full"
+                onClick={() => window.open("https://wa.me/5527988153010", "_blank")}
+              >
+                <MessageCircle className="mr-2 h-5 w-5" />
+                Falar no WhatsApp
+              </Button>
             </div>
-            
-            <div className="bg-gray-800 p-8 rounded-lg">
-              <h3 className="text-2xl font-bold mb-6 text-lime-400">Financiamento Facilitado</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-lime-400 rounded-full"></div>
-                  <span>Financiamos em até 60x</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-lime-400 rounded-full"></div>
-                  <span>Diversos no cartão até 21x</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-lime-400 rounded-full"></div>
-                  <span>Pegamos seu usado na troca</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-lime-400 rounded-full"></div>
-                  <span>Entrada facilitada</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-lime-400 rounded-full"></div>
-                  <span>Financiamos sem CNH</span>
-                </div>
-              </div>
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">Financiamento Facilitado</h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                <li>Financiamos em até 60x</li>
+                <li>Diversos no cartão até 21x</li>
+                <li>Pegamos seu usado na troca</li>
+                <li>Entrada facilitada</li>
+                <li>Financia sem CNH</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-12">
+            <h3 className="text-3xl font-bold text-center mb-6 text-gray-800">Onde Estamos</h3>
+            <div className="relative overflow-hidden rounded-lg shadow-lg" style={{ paddingBottom: '56.25%', height: 0 }}>
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d211.58446426935626!2d-40.31577097075047!3d-20.34429946333666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb83dfa27cb4455%3A0x87978f26e8aa1568!2sBravo%20Ve%C3%ADculos!5e1!3m2!1spt-BR!2sbr!4v1758770128180!5m2!1spt-BR!2sbr" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0, position: 'absolute', top: 0, left: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-4 mb-4 md:mb-0">
-              <img 
-                src={isMobile ? bravoLogoSmall : bravoLogoMedium} 
-                alt="Bravo Veículos" 
-                className="h-10 w-10 rounded-full"
-                onError={(e) => { e.target.src = bravoLogo }}
-              />
-              <div>
-                <h3 className="font-bold text-lime-400">BRAVO VEÍCULOS</h3>
-                <p className="text-sm text-gray-400">Qualidade e garantia em um só lugar</p>
-              </div>
-            </div>
-            
-            <div className="flex space-x-4">
-              <Button size="sm" variant="ghost" className="text-white hover:text-lime-400">
-                <Facebook className="h-5 w-5" />
-              </Button>
-              <Button 
-                size="sm" 
-                variant="ghost" 
-                className="text-white hover:text-lime-400"
-                onClick={() => window.open('https://www.instagram.com/bravoveiculo/', '_blank')}
-              >
-                <Instagram className="h-5 w-5" />
-              </Button>
-              <Button 
-                size="sm" 
-                variant="ghost" 
-                className="text-white hover:text-lime-400"
-                onClick={() => window.open('https://wa.me/5527988153010', '_blank')}
-              >
-                <MessageCircle className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Bravo Veículos. Todos os direitos reservados.</p>
-          </div>
+      <footer className="bg-black text-white py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p>&copy; {new Date().getFullYear()} Bravo Veículos. Todos os direitos reservados.</p>
+          <p className="text-sm text-gray-400 mt-2">Desenvolvido com ❤️ por Manus</p>
         </div>
       </footer>
 
-      {/* Modal de Detalhes do Veículo */}
-      <VehicleModal 
-        vehicle={selectedVehicle}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      {isModalOpen && selectedVehicle && (
+        <VehicleModal 
+          vehicle={selectedVehicle} 
+          onClose={() => setIsModalOpen(false)} 
+        />
+      )}
     </div>
   )
 }
 
 export default App
+
