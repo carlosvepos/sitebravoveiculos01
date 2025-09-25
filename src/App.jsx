@@ -519,17 +519,27 @@ function App() {
 
           <div className="mt-12">
             <h3 className="text-3xl font-bold text-center mb-6 text-gray-800">Onde Estamos</h3>
-            <div className="relative overflow-hidden rounded-lg shadow-lg" style={{ paddingBottom: '56.25%', height: 0 }}>
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d211.58446426935626!2d-40.31577097075047!3d-20.34429946333666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb83dfa27cb4455%3A0x87978f26e8aa1568!2sBravo%20Ve%C3%ADculos!5e1!3m2!1spt-BR!2sbr!4v1758770128180!5m2!1spt-BR!2sbr" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, position: 'absolute', top: 0, left: 0 }}
+            <div className="flex flex-col items-center justify-center space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d211.58446426935626!2d-40.31577097075047!3d-20.34429946333666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb83dfa27cb4455%3A0x87978f26e8aa1568!2sBravo%20Ve%C3%ADculos!5e1!3m2!1spt-BR!2sbr!4v1758770128180!5m2!1spt-BR!2sbr"
+                width="300"
+                height="300"
+                style={{ border: 0, borderRadius: '8px' }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                className="w-full md:w-auto"
               ></iframe>
+              <a
+                href="https://www.google.com/maps/place/Bravo+Ve%C3%ADculos/@-20.3442995,-40.315771,17z/data=!3m1!4b1!4m6!3m5!1s0xb83dfa27cb4455:0x87978f26e8aa1568!8m2!3d-20.3442995!4d-40.3131961!16s%2Fg%2F11b619217s?entry=ttu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lime-400 hover:underline font-semibold text-lg"
+              >
+                Ver no Google Maps
+              </a>
             </div>
+            
           </div>
         </div>
       </section>
