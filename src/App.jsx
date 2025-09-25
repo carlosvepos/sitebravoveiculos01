@@ -26,6 +26,13 @@ import clienteFeliz2Mobile from './assets/optimized/cliente_feliz_2_mobile.webp'
 import clienteFeliz2Desktop from './assets/optimized/cliente_feliz_2_desktop.webp'
 import clienteSatisfeitoMobile from './assets/optimized/cliente_satisfeito_mobile.webp'
 import clienteSatisfeitoDesktop from './assets/optimized/cliente_satisfeito_desktop.webp'
+// Imagens do Instagram
+import clienteNissanDesktop from './assets/optimized/cliente_nissan_instagram_desktop.webp'
+import clienteNissanMobile from './assets/optimized/cliente_nissan_instagram_mobile.webp'
+import familiaFelizDesktop from './assets/optimized/familia_feliz_instagram_desktop.webp'
+import familiaFelizMobile from './assets/optimized/familia_feliz_instagram_mobile.webp'
+import entregaChevroletDesktop from './assets/optimized/entrega_chevrolet_instagram_desktop.webp'
+import entregaChevroletMobile from './assets/optimized/entrega_chevrolet_instagram_mobile.webp'
 import { useIsMobile } from './hooks/useIsMobile'
 import { supabase } from './lib/supabase'
 import { VehicleModal } from './components/VehicleModal'
@@ -122,24 +129,24 @@ function App() {
 
   const testimonials = [
     {
-      name: "Maria Silva",
-      text: "Excelente atendimento! Encontrei o carro perfeito com ótimo preço.",
+      name: "Cliente Satisfeito",
+      text: "Mais 1+ Venda! Obrigado pela preferência ❤️ - Nissan Kicks perfeito!",
       rating: 5,
-      image: isMobile ? clienteFeliz1Mobile : clienteFeliz1Desktop,
+      image: isMobile ? clienteNissanMobile : clienteNissanDesktop,
       fallback: clienteFeliz1
     },
     {
-      name: "João Santos",
-      text: "Profissionais competentes e honestos. Recomendo a todos!",
+      name: "Família Feliz",
+      text: "+1 VENDA REALIZADA, obrigado pela preferência ✅ - Realizamos o sonho da nossa família!",
       rating: 5,
-      image: isMobile ? clienteFeliz2Mobile : clienteFeliz2Desktop,
+      image: isMobile ? familiaFelizMobile : familiaFelizDesktop,
       fallback: clienteFeliz2
     },
     {
-      name: "Carlos Oliveira",
-      text: "Qualidade e garantia como prometido. Meu carro está perfeito há 2 anos!",
+      name: "Sonho Realizado",
+      text: "+1 SONHO REALIZADO, Obrigado pela preferência - Chevrolet entregue com muito carinho!",
       rating: 5,
-      image: isMobile ? clienteSatisfeitoMobile : clienteSatisfeitoDesktop,
+      image: isMobile ? entregaChevroletMobile : entregaChevroletDesktop,
       fallback: clienteSatisfeito
     }
   ]

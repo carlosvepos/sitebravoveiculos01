@@ -20,7 +20,7 @@ export function QuemSomos({ onClose }) {
             </div>
             <Button 
               variant="outline" 
-              className="text-white border-lime-400 hover:bg-lime-400 hover:text-black"
+              className="text-lime-400 border-lime-400 hover:bg-lime-400 hover:text-black bg-transparent"
               onClick={onClose}
             >
               Voltar ao Site
