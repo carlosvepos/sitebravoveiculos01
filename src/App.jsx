@@ -37,6 +37,7 @@ import { useIsMobile } from './hooks/useIsMobile'
 import { supabase } from './lib/supabase'
 import { VehicleModal } from './components/VehicleModal'
 import { QuemSomos } from './components/QuemSomos'
+import { ClientesCarrossel } from './components/ClientesCarrossel'
 import './App.css'
 
 function App() {
@@ -487,44 +488,8 @@ function App() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12">Clientes Satisfeitos</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-              >
-                <Card className="h-full">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      <img 
-                        src={testimonial.image} 
-                        alt={testimonial.name}
-                        className="w-16 h-16 rounded-full object-cover mx-auto mb-4"
-                        onError={(e) => { e.target.src = testimonial.fallback }}
-                      />
-                      <div>
-                        <h4 className="font-bold">{testimonial.name}</h4>
-                        <div className="flex">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-600 italic">"{testimonial.text}"</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Clientes Satisfeitos Carrossel */}
+      <ClientesCarrossel />
 
       {/* Contact Section */}
       <section id="contato" className="py-16 bg-black text-white">
