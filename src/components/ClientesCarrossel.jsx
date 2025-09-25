@@ -176,7 +176,7 @@ export function ClientesCarrossel() {
                   <img
                     src={depoimentos[currentSlide].imagem}
                     alt={depoimentos[currentSlide].nome}
-                    className="w-full h-80 md:h-96 object-cover"
+                    className="w-full h-80 md:h-96 object-contain bg-gray-100"
                     loading="lazy"
                   />
                 </div>
