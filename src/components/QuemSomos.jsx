@@ -245,7 +245,7 @@ export function QuemSomos({ onClose }) {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="text-white border-lime-400 hover:bg-lime-400 hover:text-black"
+                className="text-lime-400 border-lime-400 hover:bg-lime-400 hover:text-black bg-transparent"
                 onClick={onClose}
               >
                 Ver Nosso Estoque

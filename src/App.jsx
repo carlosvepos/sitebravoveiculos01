@@ -302,7 +302,7 @@ function App() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8 text-lime-400">Encontre seu Veículo</h2>
           <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div>
                 <label className="block text-sm font-medium mb-2">Palavra-chave</label>
                 <Input
@@ -341,12 +341,12 @@ function App() {
                   </SelectContent>
                 </Select>
               </div>
-            </div>
-            <div className="text-center mt-6">
-              <Button className="bg-lime-400 hover:bg-lime-500 text-black font-bold">
-                <Search className="mr-2 h-4 w-4" />
-                Buscar Veículos
-              </Button>
+              <div>
+                <Button className="bg-lime-400 hover:bg-lime-500 text-black font-bold w-full">
+                  <Search className="mr-2 h-4 w-4" />
+                  Buscar Veículos
+                </Button>
+              </div>
             </div>
           </div>
         </div>
