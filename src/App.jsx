@@ -10,6 +10,9 @@ import bravoLogo from './assets/bravo_logo.png'
 import clienteFeliz1 from './assets/cliente_feliz_1.jpg'
 import clienteFeliz2 from './assets/cliente_feliz_2.jpg'
 import clienteSatisfeito from './assets/cliente_satisfeito.jpg'
+import heroBg1 from './assets/hero_bg_1.png'
+import heroBg2 from './assets/hero_bg_2.png'
+import heroBg3 from './assets/hero_bg_3.png'
 import { supabase } from './lib/supabase'
 import { VehicleModal } from './components/VehicleModal'
 import { QuemSomos } from './components/QuemSomos'
@@ -174,7 +177,15 @@ function App() {
 
       {/* Hero Section */}
       <section id="inicio" className="relative bg-gradient-to-r from-black via-gray-900 to-black text-white py-20">
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url(${heroBg3})`,
+            backgroundPosition: 'center center',
+            backgroundSize: 'cover'
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-black/70"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <motion.h1 
