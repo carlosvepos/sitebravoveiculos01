@@ -162,17 +162,17 @@ function App() {
       {/* Header */}
       <header className="bg-black text-white sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-wrap items-center justify-between gap-y-2">
+            <div className="flex items-center space-x-2">
               <img 
                 src={isMobile ? bravoLogoSmall : bravoLogoMedium} 
                 alt="Bravo Veículos" 
-                className="h-12 w-12 rounded-full"
+                className="h-10 w-10 rounded-full"
                 onError={(e) => { e.target.src = bravoLogo }}
               />
               <div>
-                <h1 className="text-xl font-bold text-lime-400">BRAVO VEÍCULOS</h1>
-                <p className="text-sm text-gray-300">Qualidade e garantia em um só lugar</p>
+                <h1 className="text-lg font-bold text-lime-400">BRAVO VEÍCULOS</h1>
+                <p className="text-xs text-gray-300">Qualidade e garantia em um só lugar</p>
               </div>
             </div>
             
@@ -309,7 +309,7 @@ function App() {
       <section className="py-12 bg-black text-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8 text-lime-400">Encontre seu Veículo</h2>
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
               <div>
                 <label className="block text-sm font-medium mb-2">Palavra-chave</label>
